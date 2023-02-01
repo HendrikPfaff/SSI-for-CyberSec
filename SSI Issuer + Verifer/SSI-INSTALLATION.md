@@ -1076,17 +1076,69 @@ Response:
 
 `POST` to `/present-proof/records/{presentation_exchange_id}/send-presentation` with the "presentation_exchange_id" from the previous `GET`-call:
 ```
-```
-
-Response:
-```
+{
+    "self_attested_attributes": {},
+    "trace": true,
+    "requested_attributes": {
+        "additionalProp1": {
+            "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "revealed": true
+        }
+    },
+    "requested_predicates": { }
+}
 ```
 
 **4. Verify the received proof (Verifier)**
 
-`POST` to `/present-proof/records/{presentation_exchange_id}/verify-presentation`
+`POST` to `/present-proof/records/{presentation_exchange_id}/verify-presentation` with the "presentation_exchange_id" from the record:
 
 Response:
 ```
-
+{
+    "results": [
+        {
+            "connection_id": "3a806bdd-82ff-44c1-9cce-23a5c2797d9d",
+            "initiator": "self",
+            "trace": true,
+            "auto_present": false,
+            "created_at": "2023-01-31 15:41:48.889996Z",
+            "thread_id": "9043c85a-afe5-49ad-ab36-7e269767198e",
+            "role": "verifier",
+            "presentation_exchange_id": "3c98d2d8-7994-459e-a465-f727dfeb0e9a",
+            "updated_at": "2023-01-31 15:47:24.058726Z",
+            "verified": "true",
+            "presentation": {
+                "proof": {
+                    "proofs": [],
+                    "aggregated_proof": {
+                        "c_hash": "10639816310985837783199378615488296256229070620850680453677115602812438341389",
+                        "c_list": []
+                    }
+                },
+                "requested_proof": {
+                    "revealed_attrs": {},
+                        "self_attested_attrs": {
+                        "additionalProp1": "1.5"
+                },
+                "unrevealed_attrs": {},
+                "predicates": {}
+            },
+            "identifiers": []
+        },
+        "presentation_request": {
+            "requested_predicates": {},
+            "requested_attributes": {
+                "additionalProp1": {
+                    "name": "grade"
+                }
+            },
+            "version": "1.0",
+            "name": "Proof request",
+            "nonce": "1234567890"
+        },
+        "state": "verified"
+    }
+    ]
+}
 ```
