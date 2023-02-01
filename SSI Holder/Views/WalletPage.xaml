@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:SSI_Holder.Helpers"
+             xmlns:converters="clr-namespace:SSI_Holder.Converters"
+             x:Class="SSI_Holder.Views.WalletPage"
+             Title="Wallet"
+             BackgroundColor="#EEEEEE">
+    <ContentPage.Resources>
+        <converters:ConnectionStateConverter x:Key="ConnectionStateConverter" />
+        <converters:AttributeNameConverter x:Key="AttributeNameConverter" />
+    </ContentPage.Resources>
+    
+    <Grid HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0"
+              Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <VerticalStackLayout Grid.Row="0"
+                                 Grid.Column="0"
+                                 Padding="0,10,0,10"
+                                 VerticalOptions="FillAndExpand"
+                                 HorizontalOptions="FillAndExpand">
+                
+                <Label Text="Nachweise"
+                       FontAttributes="Bold"
+                       FontSize="Medium"
+                       Margin="10"/>
+
+                <Border StrokeShape="RoundRectangle 25,25,25,25"
+                        Margin="5,0,5,0"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand">
+                    <Border.Shadow>
+                        <Shadow Brush="Black"
+                                Offset="20,20"
+                                Radius="40"
+                                Opacity="0.5"/>
+                    </Border.Shadow>
+                    
+                    <ScrollView BackgroundColor="White"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                HeightRequest="420">
+                        
+                            <CollectionView x:Name="CredentialsCollectionView"
+                                            ItemsSource="{Binding Credentials}"
+                                            HorizontalOptions="FillAndExpand">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border HorizontalOptions="FillAndExpand"
+                                                Padding="10"
+                                                Margin="10"
+                                                StrokeShape="RoundRectangle 5,5,5,5">
+                                            <Border.Shadow>
+                                                <Shadow Brush="Black"
+                                                Offset="20,20"
+                                                Radius="40"
+                                                Opacity="0.5" />
+                                            </Border.Shadow>
+                                            <VerticalStackLayout>
+                                                <Label Text="{Binding DisplayName}"
+                                                       FontSize="Medium"
+                                                       FontAttributes="Bold"/>
+                                                <HorizontalStackLayout Margin="0,0,0,10">
+                                                    <Label Text="("
+                                                           FontSize="Caption"
+                                                           TextColor="Gray"/>
+                                                    <Label Text="{Binding CredDefId}"
+                                                           FontSize="Caption"
+                                                           TextColor="Gray"/>
+                                                <Label Text=")"
+                                                       FontSize="Caption"
+                                                       TextColor="Gray"/>
+                                                </HorizontalStackLayout>
+
+                                                <CollectionView x:Name="CredentialAttributes"
+                                                                ItemsSource="{Binding SortedAttrs}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <VerticalStackLayout>
+                                                            <HorizontalStackLayout>
+                                                                <Label Text="{Binding Key, Converter={StaticResource AttributeNameConverter}}"
+                                                                       FontAttributes="Bold"/>
+                                                                <Label Text=": "
+                                                                       FontAttributes="Bold"/>
+                                                            </HorizontalStackLayout>
+                                                            <Label Text="{Binding Value}"
+                                                                   Margin="10,0,0,0"/>
+                                                        </VerticalStackLayout>                                                        
+                                                    </DataTemplate>                                                    
+                                                </CollectionView.ItemTemplate>
+                                                    
+                                                   
+                                                 </CollectionView>
+                                                
+                                                
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        
+                    </ScrollView>
+                </Border>      
+                
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="1"
+                                 Grid.Column="0"
+                                 Padding="0,10,0,10"
+                                 VerticalOptions="FillAndExpand"
+                                 HorizontalOptions="FillAndExpand">
+                
+                <Label Text="Verbindungen"
+                       FontAttributes="Bold"
+                       FontSize="Medium"
+                       Margin="10"/>
+                
+                <Border StrokeShape="RoundRectangle 25,25,25,25"                        
+                        Margin="5,0,5,0"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand">
+                    <Border.Shadow>
+                        <Shadow Brush="Black"
+                                Offset="20,20"
+                                Radius="40"
+                                Opacity="0.5"/>
+                    </Border.Shadow>
+
+                    <ScrollView BackgroundColor="White"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                HeightRequest="170">
+                        
+                            <CollectionView x:Name="ConnectionsCollectionView"
+                                            VerticalOptions="FillAndExpand"
+                                            ItemsSource="{Binding Connections}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                    <VerticalStackLayout Margin="10">
+                                        <HorizontalStackLayout>
+                                            <Label Text="{Binding TheirLabel}"/>
+                                            <!--
+                                            <Label Text=" - "/>
+                                            <Label Text="{Binding State, Converter={StaticResource ConnectionStateConverter}}"/>
+                                            -->
+                                        </HorizontalStackLayout>
+                                            <HorizontalStackLayout>
+                                                <Label Text="("
+                                                       FontSize="Caption"
+                                                       TextColor="Gray"/>
+                                                <Label Text="{Binding ConnectionId}"
+                                                       FontSize="Caption"
+                                                       TextColor="Gray"/>
+                                                <Label Text=")"
+                                                       FontSize="Caption"
+                                                       TextColor="Gray"/>
+                                            </HorizontalStackLayout>
+                                    </VerticalStackLayout>                                    
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                    
+                    </ScrollView>
+                </Border>
+            </VerticalStackLayout>
+        </Grid>
+
+        <Button Grid.Column="0"
+                Grid.Row="1"
+                Text="{x:Static helpers:IconFont.Qrcode}"
+                FontSize="25"
+                TextColor="White"
+                FontFamily="FontAwesome"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                Margin="15"
+                HorizontalOptions="End"
+                BackgroundColor="LightBlue"
+                Command="{Binding ScanButtonTappedCommand}">
+            <Button.Shadow>
+                <Shadow Brush="Black"
+                        Offset="5,5"
+                        Radius="40"
+                        Opacity="0.5" />
+            </Button.Shadow>
+        </Button>
+    </Grid>
+    
+</ContentPage>
